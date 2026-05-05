@@ -1,6 +1,6 @@
 # Distributed RAG Knowledge Platform
 
-A production-grade backend system for building Retrieval-Augmented Generation (RAG) pipelines using fully open-source technologies.
+A production-grade backend system for building Retrieval-Augmented Generation (RAG) pipelines, leveraging an open-source stack.
 
 ## 🚀 Features
 
