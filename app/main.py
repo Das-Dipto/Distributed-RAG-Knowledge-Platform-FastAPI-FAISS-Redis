@@ -13,3 +13,5 @@ async def root():
     return {
         "message": "Distributed RAG Platform Running"
     }
+
+# Work to be done -- Document Ingestion Pipeline Architecture Design work has been started
