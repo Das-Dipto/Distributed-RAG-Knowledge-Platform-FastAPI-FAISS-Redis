@@ -14,4 +14,4 @@ async def root():
         "message": "Distributed RAG Platform Running"
     }
 
-# Work to be done -- Document Ingestion Pipeline Architecture Design work has been started
+# Work to be done -- Document Ingestion Pipeline-  still refining the robust architecture viewpoint
