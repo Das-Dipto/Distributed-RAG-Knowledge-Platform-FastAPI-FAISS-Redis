@@ -1,0 +1,3 @@
+Distributed RAG systems process documents asynchronously.
+Redis queues background jobs.
+FastAPI handles upload APIs.
