@@ -8,7 +8,7 @@ redis_connection = Redis(
     port=settings.REDIS_PORT
 )
 
-document_queue = Queue(
+queue = Queue(
     "document-processing",
     connection=redis_connection
 )

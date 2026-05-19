@@ -1,6 +1,8 @@
 from fastapi import FastAPI
 
 from app.core.config.settings import settings
+from app.api.v1.routes.documents import router as document_router
+
 
 app = FastAPI(
     title=settings.APP_NAME,
@@ -14,4 +16,4 @@ async def root():
         "message": "Distributed RAG Platform Running"
     }
 
-# Work to be done -- Document Ingestion Pipeline-  still refining the robust architecture viewpoint
+app.include_router(document_router, prefix="/api/v1")
