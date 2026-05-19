@@ -3,7 +3,7 @@ from fastapi import APIRouter, UploadFile, File, HTTPException
 from app.ingestion.loaders.file_manager import FileManager
 from app.ingestion.pipeline.ingest_document import process_document_ingestion
 from app.queue.redis_queue import queue
-
+from app.api.v1.schemas.document_schema import DocumentUploadResponse
 
 router = APIRouter(prefix="/documents", tags=["Documents"])
 
@@ -11,7 +11,7 @@ router = APIRouter(prefix="/documents", tags=["Documents"])
 ALLOWED_EXTENSIONS = {".txt", ".pdf"}
 
 
-@router.post("/upload")
+@router.post("/upload", status_code=201, response_model=DocumentUploadResponse)
 def upload_document(file: UploadFile = File(...)):
     suffix = file.filename[file.filename.rfind("."):].lower()
 

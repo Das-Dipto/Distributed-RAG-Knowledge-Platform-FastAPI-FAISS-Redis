@@ -8,5 +8,3 @@ Chunking pipelines split large documents into manageable sections.
 Docker containers isolate services for consistent deployment environments.
 Microservice architecture improves maintainability and fault isolation.
 Embedding models transform raw text into machine-understandable vectors.
-Background ingestion pipelines preprocess and index uploaded documents.
-RESTful APIs enable communication between distributed backend services.
