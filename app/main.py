@@ -18,4 +18,4 @@ async def root():
 
 app.include_router(document_router, prefix="/api/v1")
 
-// Embedding Generation pipeline- work continued
+// Embedding Generation pipeline- still solving issues
