@@ -2,26 +2,37 @@ from pathlib import Path
 
 from app.ingestion.loaders.loader_factory import LoaderFactory
 from app.ingestion.chunking.text_chunker import TextChunker
+from app.ingestion.embedding.embedding_service import EmbeddingService
 
 
-def process_document_ingestion(document_id: str, file_path: str):
-
+def process_document_ingestion(
+    document_id: str,
+    file_path: str
+):
     print("=" * 50)
     print("DOCUMENT INGESTION STARTED")
+    print("=" * 50)
 
     print(f"Document ID: {document_id}")
     print(f"File Path: {file_path}")
 
-    file_exists = Path(file_path).exists()
+    if not Path(file_path).exists():
+        raise FileNotFoundError(
+            f"File not found: {file_path}"
+        )
 
-    print(f"File Exists: {file_exists}")
-
+    # -----------------------------
+    # Text Extraction Stage
+    # -----------------------------
     loader = LoaderFactory.get_loader(file_path)
 
     extracted_text = loader.extract_text()
 
     print(f"Extracted Text Length: {len(extracted_text)}")
 
+    # -----------------------------
+    # Chunking Stage
+    # -----------------------------
     chunker = TextChunker(
         chunk_size=500,
         overlap=50
@@ -34,6 +45,37 @@ def process_document_ingestion(document_id: str, file_path: str):
 
     print(f"Total Chunks Created: {len(chunks)}")
 
+    # -----------------------------
+    # Embedding Stage
+    # -----------------------------
+    embedding_service = EmbeddingService()
+
+    chunk_texts = [
+        chunk.text
+        for chunk in chunks
+    ]
+
+    embeddings = embedding_service.generate_embeddings(
+        chunk_texts
+    )
+
+    for chunk, embedding in zip(
+        chunks,
+        embeddings
+    ):
+        chunk.embedding = embedding
+
+    print(
+        f"Total Embeddings Generated: {len(embeddings)}"
+    )
+
+    print(
+        f"Embedding Dimension: {len(embeddings[0])}"
+    )
+
+    # -----------------------------
+    # Preview
+    # -----------------------------
     for chunk in chunks[:3]:
 
         print("-" * 50)
@@ -45,5 +87,6 @@ def process_document_ingestion(document_id: str, file_path: str):
         print("Chunk Preview:")
         print(chunk.text[:150])
 
+    print("=" * 50)
     print("DOCUMENT INGESTION FINISHED")
     print("=" * 50)

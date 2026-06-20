@@ -7,3 +7,4 @@ class TextChunk:
     document_id: str
     text: str
     chunk_index: int
+    embedding: list | None = None
