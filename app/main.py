@@ -18,4 +18,4 @@ async def root():
 
 app.include_router(document_router, prefix="/api/v1")
 
-// FAISS Vectore Store Integration on implenmentation phase, dependency injection
+
