@@ -1,8 +1,9 @@
 from pathlib import Path
 
-from app.ingestion.loaders.loader_factory import LoaderFactory
 from app.ingestion.chunking.text_chunker import TextChunker
 from app.ingestion.embedding.embedding_service import EmbeddingService
+from app.ingestion.loaders.loader_factory import LoaderFactory
+from app.retrieval.vectorstore.faiss_store import FAISSStore
 
 
 def process_document_ingestion(
@@ -46,7 +47,7 @@ def process_document_ingestion(
     print(f"Total Chunks Created: {len(chunks)}")
 
     # -----------------------------
-    # Embedding Stage
+    # Embedding Generation Stage
     # -----------------------------
     embedding_service = EmbeddingService()
 
@@ -59,10 +60,7 @@ def process_document_ingestion(
         chunk_texts
     )
 
-    for chunk, embedding in zip(
-        chunks,
-        embeddings
-    ):
+    for chunk, embedding in zip(chunks, embeddings):
         chunk.embedding = embedding
 
     print(
@@ -74,7 +72,24 @@ def process_document_ingestion(
     )
 
     # -----------------------------
-    # Preview
+    # Vector Storage Stage
+    # -----------------------------
+    vector_store = FAISSStore(
+        dimension=len(embeddings[0])
+    )
+
+    vector_store.add_embeddings(
+        embeddings
+    )
+
+    vector_store.save()
+
+    print(
+        f"Total Stored Vectors: {vector_store.total_vectors()}"
+    )
+
+    # -----------------------------
+    # Preview Stage
     # -----------------------------
     for chunk in chunks[:3]:
 
